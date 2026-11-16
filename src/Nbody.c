@@ -62,7 +62,7 @@ double compute_distance(const NBody* system, int i, int j){
     return dist;
 }
 
-void compute_acceleration(
+double compute_acceleration(
     const NBody* system,
     int i){
         
@@ -86,7 +86,7 @@ void compute_acceleration(
         return sqrt(ax*ax+ay*ay);
 }
 
-double compute_forces(const NBody system, int i){
+double compute_forces(const NBody* system, int i){   
 
 }
 
