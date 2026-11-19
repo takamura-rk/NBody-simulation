@@ -25,8 +25,6 @@ double compute_acceleration(
 
 double compute_forces(const NBody* system, int i);
 
-// void update_positions(NBody* system, double dt);
-// void update_velocities(NBody* system, double dt);
 
 double compute_kinetic_energy(const NBody* system);
 double compute_potential_energy(const NBody* system);
@@ -34,11 +32,5 @@ double compute_total_energy(const NBody* system);
 
 double compute_momentum_x(const NBody* system);
 double compute_momentum_y(const NBody* system);
-
-
-
-
-
-
 
 #endif

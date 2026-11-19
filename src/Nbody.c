@@ -59,7 +59,7 @@ void nbody_destroy(NBody* system){
 
 double compute_distance(const NBody* system, int i, int j){
     double dist=system->x[i]*system->x[j]+system->y[i]*system->y[j];
-    return dist;
+    return sqrt(dist);
 }
 
 double compute_acceleration(
@@ -86,12 +86,43 @@ double compute_acceleration(
         return sqrt(ax*ax+ay*ay);
 }
 
-double compute_forces(const NBody* system, int i){   
+// double compute_forces(const NBody* system, int i){   
 
+// }
+
+double compute_kinetic_energy(const NBody* system){
+    double T=0;
+    for(int i=0; i<=system->N_part; i++){
+        T+=system->mass[i]*(system->vx[i]*system->vx[i]+system->vy[i]*system->vy[i])/2;
+    }
+    return T;
 }
 
+double compute_potential_energy(const NBody* system){
+    double U=0;
+    for(int i=0; i<system->N_part-1; i++){
+        for(int j=i+1;j<system->N_part; j++){
+            U-=G*system->mass[i]*system->mass[j]/compute_distance(system, i, j);
+        }
+    }
+}
 
+double compute_total_energy(const NBody* system){
+    return compute_kinetic_energy(system)+compute_potential_energy(system);
+}
 
+double compute_momentum_x(const NBody* system){
+    double P_x=0;
+    for(int i=0;i<system->N_part;i++){
+        P_x+=system->mass[i]*system->vx[i];
+    }
+}
+double compute_momentum_y(const NBody* system){
+    double P_y=0;
+    for(int i=0;i<system->N_part;i++){
+        P_y+=system->mass[i]*system->vy[i];
+    }
+}
 
 
 

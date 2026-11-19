@@ -6,10 +6,11 @@ set(CMAKE_C_STANDARD_REQUIRED ON)
 
 set(COMMON_COMPILE_FLAGS
     $<$<CONFIG:Debug>:-Wall -Wextra -g>
-    $<$<CONFIG:Release>:-Wall -Wextra -03 -DNDEBUG>
+    $<$<CONFIG:Release>:-Wall -Wextra -O3 -DNDEBUG>
 )
 
 add_executable(grav src/main.c src/Nbody.c)
+target_link_libraries(grav PRIVATE m)
 target_include_directories(grav PRIVATE ${PROJECT_SOURCE_DIR}/include)
 target_compile_options(grav PRIVATE ${COMMON_COMPILE_FLAGS})
 
@@ -31,9 +32,13 @@ if(NOT unity_POPULATED)
     FetchContent_Populate(unity)
     add_subdirectory(${unity_SOURCE_DIR} ${unity_BINARY_DIR} EXCLUDE_FROM_ALL)
 endif()
+target_compile_definitions(unity PRIVATE UNITY_INCLUDE_DOUBLE)
 
 # Build the test runner executable
-add_executable(test_runner tests/test_runner.c )
+add_executable(test_runner tests/test_runner.c tests/test_NBody.c src/Nbody.c )
+target_compile_definitions(test_runner PRIVATE
+    UNITY_INCLUDE_DOUBLE
+)
 
 target_include_directories(test_runner PRIVATE
     ${PROJECT_SOURCE_DIR}/include
